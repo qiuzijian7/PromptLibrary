@@ -80,6 +80,84 @@ export async function getDictData(onlyMyNotion?: boolean): Promise<IDictDir[]> {
     return <any>dictDirs
 }
 
+export async function getPrefabData(onlyMyNotion?: boolean): Promise<IDictDir[]> {
+    let database = useDatabaseServer()
+    let define = await database.getPrefabsDefine({ onlyMyNotion })
+
+    let dirMap: any = {}
+    let prefabMap: any = []
+    for (let key in define) {
+        let item = define[key]
+        let prompts = item?.prompt?.split(/[,.]/);
+        let tags = item?.tags?.split(",");
+        let newPrefab = 
+        {
+            prompt: item.prompt,
+            url: item.weblink,
+            image: item.image,
+            tags: tags,
+            platform: item.platform,
+            words:[],
+            author:item.author
+        }
+        prefabMap.push(newPrefab)
+        let prefabeIndex = prefabMap.length-1
+        for(let key in prompts)
+        {
+            newPrefab.words.push(
+                {
+                    text: prompts[key],
+                    langText: "",
+                    subType: "",
+                    desc: "",
+                }
+            );
+        }
+
+        if(tags?.length==0)
+        {
+            if(!dirMap["undefine"])
+            {
+                dirMap["undefine"] = [];
+            }
+            dirMap["undefine"].push(prefabeIndex);
+        }
+        else
+        {
+            tags.forEach((tagName:any) => {
+                if(!dirMap[tagName])
+                {
+                    dirMap[tagName] = [];
+                }
+                dirMap[tagName].push(prefabeIndex);           
+              });
+           
+        }
+       
+        
+    }
+
+    let tagMap = Object.keys(dirMap)
+    let dictDirs = Object.values(dirMap)
+
+    dictDirs.forEach((dir: any) => {
+        dir.forEach((eachPrompt:any) => {
+            prefabMap[eachPrompt].words = lists(prefabMap[eachPrompt].words)
+        });
+        
+    })
+
+    function lists(words: any[]) {
+        return words.map((word) => {
+            let item = PromptItem.fromWord(<any>word)
+            item.state.isDict = true
+            return item
+        })
+    }
+
+    return [<any>dictDirs,<any> tagMap,<any> prefabMap]
+}
+
 export interface IDictDir {
     name: string
     children: IDictDir[]

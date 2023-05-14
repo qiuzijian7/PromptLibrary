@@ -1,0 +1,41 @@
+{
+"1":{
+        "prompt":"Young girl with long hair wearing armor, and a heart, in the style of futuristic sci - fi aesthetic, light silver and red, electric fantasy, light white, close - up, alois arnegger, gemstone",
+        "weblink":"https://nijijourney.com/en/app/jobs/7cedecbd-27f7-46ee-8b15-d54b95e41f79/",
+        "platform":"midjourney",
+        "property":"--ar 2:3 --niji 5 --style expressive",
+        "username":"Wolfmilk",
+        "image":"https://mj-gallery.com/6f62eb56-679a-4328-b359-7d25318ee5cc/0_3.png",
+        "tags":"人物,二次元,女性"
+    },
+"2":{
+        "prompt":"LEOPARD, The SKY was filled with clouds, reading on top of clouds, surrounded by many colorful clouds with little monsters in them. huge world view, big scene, cinematic, stunning, 16k, Ultra HD, very detailed, concept art, blue and white porcelain,",
+        "weblink":"https://www.midjourney.com/app/jobs/cf064585-a7c4-49d3-918c-b75c597808ba/",
+        "platform":"midjourney",
+        "property":"--ar 9:16 --s 750 --v 5 --q 2 --v 4 --q 2 --v 4",
+        "username":"Johnny Jovama",
+        "image":"https://cdn.midjourney.com/a527fcd3-c2fb-41a8-8ccc-8ac2d83b8bad/0_1.png",
+        "tags":"动物,卡通"
+    },
+"3":{
+        "prompt":"A tattooed female warrior with a sword, above waist shot, intense close - ups, by Krenz Cushart, Alphonse Mucha, detailed fantasy character design, in the style of dark white and light magenta, charming anime characters, shiny/ glossy, streamlined design, puzzle - like pieces, monumental figures, rinpa school",
+        "weblink":"https://www.midjourney.com/app/jobs/fa0605d0-81d0-4dc4-9d3b-ec2ab445e75e/",
+        "platform":"midjourney",
+        "property":"--ar 1:2 --s 1000 --v 5 --q 2",
+        "username":"Tatlı Anime Kızı",
+        "image":"https://cdn.midjourney.com/4e0385bd-60e1-4d50-b3c7-1c0a96fe6e8f/0_0.png",
+        "tags":"写实"
+    },
+"4":{
+        "prompt":"Hyper realistic juicy fruit salad, extreme close up, juicy pulp, light illuminated through the pulp, glistening in the light, bokeh, chromatic aberration, shallow depth of field",
+        "weblink":"https://www.midjourney.com/app/jobs/c3f1a4cf-18ae-4372-9557-5d319dee5576/",
+        "platform":"midjourney",
+        "property":"--ar 9:16 --v 5",
+        "username":"BrandonMc",
+        "image":"https://cdn.midjourney.com/2e8639ea-c416-41a9-a7c1-83483c127845/0_2.png",
+        "tags":"人物,女性"
+    }
+
+
+
+}

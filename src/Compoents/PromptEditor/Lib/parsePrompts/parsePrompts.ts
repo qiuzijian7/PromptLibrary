@@ -19,6 +19,15 @@ export interface IPromptWord {
     alv?: number
     isEg?: boolean
 }
+export interface IPromptImage {
+    id: string
+    author?:string
+    link?:string
+    image?:string
+    platform?:string
+    words?:IPromptWord[]
+
+}
 export enum PromptWordType {
     Word = "word",
 }

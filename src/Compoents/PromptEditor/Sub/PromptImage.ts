@@ -1,45 +1,39 @@
-import { IPromptWord, PromptWordType } from "../Lib/parsePrompts/parsePrompts"
+import { IPromptWord,IPromptImage, PromptWordType } from "../Lib/parsePrompts/parsePrompts"
 import { useDatabaseServer } from "../Lib/DatabaseServer/DatabaseServer"
 import { chinesePercentage } from "../Lib/chinesePercentage"
 import { translatePrompts } from "../Lib/translatePrompts"
 import { stringFromUnit8Array } from "fzz"
 
-export interface IPromptItemData {
-    word: IPromptWord
+export interface IPromptImageData {
+    image: IPromptImage
     // 被禁用的
     disabled?: boolean
 }
 
-export class PromptItem {
-    static fromWord(word: IPromptWord) {
-        return new PromptItem({
-            word: Object.assign(emptyWord(), word),
+export class PromptImage {
+    static fromWord(image: IPromptImage) {
+        return new PromptImage({
+            image: Object.assign(emptyWord(), image),
         })
     }
-    static createEmpty(data: { text?: string; group?: string; subType?: string }) {
-        return new PromptItem({
-            word: <any>{
+    static createEmpty(data: { text?: string; author?: string; link?: string; image?: string }) {
+        return new PromptImage({
+            image: <any>{
                 ...emptyWord(),
                 id: `${data.text},${Date.now()}`,
-                text: data.text ?? "",
-                rawText: data.text ?? "",
-                type: PromptWordType.Word,
-                group: data.group,
-                subType: data.subType,
-                desc: "",
-                args: [],
-                lv: 1,
-                isEg: false,
+                author: data.author,
+                link: data.link,
+                image: data.image,
             },
         })
     }
 
-    data!: IPromptItemData
+    data!: IPromptImageData
     state = {
         isEdit: <false | "text" | "lang">false,
         isDict: false,
     }
-    constructor(data?: IPromptItemData) {
+    constructor(data?: IPromptImageData) {
         this.data = Object.assign({ disabled: false }, data)
     }
 
@@ -53,7 +47,7 @@ export class PromptItem {
             text = text.split(" ")[0]
             isCommand = true
         }
-
+        
         // 重置旧数据
         this.data.word.desc = undefined
         this.data.word.langText = undefined

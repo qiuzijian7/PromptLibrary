@@ -48,14 +48,27 @@
         </div>
 
         <header>
-            <div class="dir-buttons" v-if="dict">
-                <button v-for="dir in dict" :class="{ active: dir == activeDir }" @click="doChangeActiveDir(dir)">
-                    {{ dir.name }}
+            <div class="dir-buttons" >
+                <button v-for="curCategory in categorys" :class="{ active: curCategory == activeCategory }" @click="doChangeActiveCategory(curCategory)">
+                    {{ curCategory }}
                 </button>
             </div>
+            <div  v-if="dict && activeCategory == '词典'">
+                <template v-for="dir in dict">
+                    <input type="radio" :id="dir.name" :value="dir" v-model="activeDir" v-on:click="doChangeActiveDir(dir)"> 
+                    <label :for="dir.name">{{dir.name}}  </label>
+                </template>
+            </div>
+            <div  v-if="tagPrefabMap && activeCategory == '预设'">
+                <template v-for="(prefabIndexs,tag) in tagPrefabMap">
+                    <input type="checkbox" :id="tag" :value="tagMap[tag]" v-model="activeTags"> 
+                    <label :for="tag">{{tagMap[tag]}}  </label>
+                </template>
+            </div>
+            
         </header>
 
-        <div class="active-dir" v-if="activeDir">
+        <div class="active-dir" v-if="activeDir  && activeCategory == '词典'">
             <details class="sub-dir" v-for="subDir in activeSubDirs" open :key="subDir.name">
                 <summary class="name" v-show="subDir.name != activeDir.name">
                     <span class="title">{{ subDir.name }}</span>
@@ -67,6 +80,14 @@
                     </div>
                 </div>
             </details>
+        </div>
+        <div class="active-dir" v-if="activeTags  && activeCategory == '预设'">
+            <div class="list">
+                <div class="item" v-for="prefabIndex in activeTags">
+                    <PromptImage :item="prefabMap[prefabIndex]" @click="doApplyWord(prefabMap[prefabIndex])"/>
+                </div>
+            </div>`
+      
         </div>
     
     </div>
@@ -105,11 +126,43 @@
             }
         }
     }
+    .dir-radio{
+
+    }
     .active-dir {
         height: 100vh;//auto;
         overflow-y: scroll;
 
         .sub-dir > .name {
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: bold;
+            color: #7e7e7e;
+            text-shadow: 0 1px rgba(255, 255, 255, 0.4901960784);
+            cursor: pointer;
+            user-select: none;
+            > .title {
+                padding-left: 6px;
+            }
+            > .len {
+                background: #e6e6e6;
+                color: #7e7e7eb0;
+                border-radius: 4px;
+                padding: 1px 8px;
+                margin-left: 4px;
+                text-align: center;
+                display: inline-flex;
+                place-content: center;
+                font-size: 12px;
+                font-weight: normal;
+                font-family: "JetBrains Mono";
+            }
+
+            &::marker {
+                color: rgba(126, 126, 126, 0.5);
+            }
+        }
+        .sub-prefab > .name {
             padding: 12px 0;
             font-size: 14px;
             font-weight: bold;
@@ -271,7 +324,7 @@
 }
 </style>
 <script>
-import { getDictData } from "./getDictData"
+import { getDictData ,getPrefabData} from "./getDictData"
 import vPromptItem from "../../Compoents/PromptEditor/Components/PromptItem/PromptItem.vue"
 import { useDatabaseServer } from "../PromptEditor/Lib/DatabaseServer/DatabaseServer"
 import { useStorage } from "@vueuse/core"
@@ -285,7 +338,13 @@ const enableMyNotion = useStorage("ops-notion-enableMyNotion", true)
 export default {
     data() {
         return {
+            categorys: ['词典','预设'],
+            activeCategory:"词典",
             dict: null,
+            tagPrefabMap: null,
+            tagMap: null,
+            prefabMap: null,
+            activeTags: [],
             activeDir: null,
             apiKey,
             databaseId,
@@ -332,6 +391,12 @@ export default {
             getDictData(onlyMyNotion.value).then((dict) => {
                 this.dict = dict
                 this.activeDir = dict[0]
+            })
+            getPrefabData(onlyMyNotion.value).then(([tagPrefabMap,tagMap,prefabMap]) => {
+                this.tagPrefabMap = tagPrefabMap
+                this.tagMap = tagMap
+                this.prefabMap = prefabMap
+                this.activeTags = [tagMap[0]]
             })
         },
 
@@ -385,6 +450,12 @@ export default {
         doChangeActiveDir(dir) {
             this.activeDir = dir
         },
+        doChangeActivePrefabTag(prefabTagName) {
+            this.activeTags = prefabIndexs
+        },
+        doChangeActiveCategory(curCategory) {
+            this.activeCategory = curCategory
+        },
 
         doGotoNotionMe() {
             if (this.notionUrl) window.open(this.notionUrl)
@@ -400,6 +471,16 @@ export default {
         activeSubDirs() {
             if (this.activeDir) {
                 return [this.activeDir, ...this.activeDir.children]
+            }
+        },
+        activePrefabs() {
+            if (this.activeTags) {
+                let displayPrefabs=[]
+                for(let prefabIndex in this.activeTags)
+                {
+                    displayPrefabs.push(this.prefabMap[prefabIndex])
+                }
+                return displayPrefabs
             }
         },
 

@@ -8,12 +8,20 @@ export interface IPromptDefineItem {
     lang_zh?: string
     sampleCmds?: string[]
     isAlias?: boolean
-    tags?: string[]
+    tags?: string
+    image?:string
+    weblink?:string
+    prompt?:string
+    author?:string
+    platform?:string
+    
 }
 
 export class DatabaseServer {
     localPromptDefineMap: { [key: string]: IPromptDefineItem } = {}
+    localPrefabDefineMap: { [key: string]: IPromptDefineItem } = {}
     notionPromptDefineMap: { [key: string]: IPromptDefineItem } = {}
+    notionPrefabDefineMap: { [key: string]: IPromptDefineItem } = {}
     isReady: null | Promise<boolean> = null
     constructor() {}
     async ready() {
@@ -24,8 +32,10 @@ export class DatabaseServer {
     async init() {
         // localJson
         let localPromptDescMap = await (await fetch("./localPromptDefineMap.json")).json()
+        let localPrefabDescMap = await (await fetch("./localPrefabDefineMap.json")).json()
         // console.log('localPromptDescMap',localPromptDescMap)
         this.localPromptDefineMap = localPromptDescMap
+        this.localPrefabDefineMap = localPrefabDescMap
         return true
     }
     async queryPromptsDefine(prompts: string[]): Promise<IPromptDefineItem[]> {
@@ -48,6 +58,15 @@ export class DatabaseServer {
             return this.notionPromptDefineMap
         } else {
             return this.localPromptDefineMap
+        }
+    }
+    async getPrefabsDefine(options?: { onlyMyNotion?: boolean })
+    {
+        await this.ready()
+        if (options?.onlyMyNotion) {
+            return this.notionPrefabDefineMap
+        } else {
+            return this.localPrefabDefineMap
         }
     }
 
