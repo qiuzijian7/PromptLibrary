@@ -11,7 +11,15 @@
                 <button class="icon dict-button"><Icon icon="mingcute:book-4-fill" /></button>
             </div>
         </nav>
-        <PromptEditor ref="PromptEditor" :init-prompts="initPrompts" />
+        <div class="RowLayout">
+            <div class="LeftWorkSpace">
+                <PromptEditor ref="PromptEditor" :init-prompts="initPrompts" />
+            </div>
+            <div class="RightWorkSpace">
+                <PromptDict />
+            </div>
+        </div>
+     
         <section class="PromptDictPad" v-if="needDictPad" v-show="showDictPad">
             <div class="title">
                 <Icon icon="mingcute:book-4-fill" />
@@ -165,6 +173,19 @@
             }
         }
     }
+    >.RowLayout{
+        display: flex;
+        flex-direction: row;
+        .LeftWorkSpace
+        {
+            width: 65%;
+        }
+        .RightWorkSpace
+        {
+            width: 35%;
+        }
+    }
+    
 }
 </style>
 <script lang="ts">

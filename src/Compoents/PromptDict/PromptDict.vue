@@ -47,11 +47,13 @@
             </div>
         </div>
 
-        <div class="dir-buttons" v-if="dict">
-            <button v-for="dir in dict" :class="{ active: dir == activeDir }" @click="doChangeActiveDir(dir)">
-                {{ dir.name }}
-            </button>
-        </div>
+        <header>
+            <div class="dir-buttons" v-if="dict">
+                <button v-for="dir in dict" :class="{ active: dir == activeDir }" @click="doChangeActiveDir(dir)">
+                    {{ dir.name }}
+                </button>
+            </div>
+        </header>
 
         <div class="active-dir" v-if="activeDir">
             <details class="sub-dir" v-for="subDir in activeSubDirs" open :key="subDir.name">
@@ -66,6 +68,7 @@
                 </div>
             </details>
         </div>
+    
     </div>
 </template>
 <style lang="scss">
@@ -74,7 +77,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-
+    //width: 500px;
     .dir-buttons {
         display: flex;
         flex-wrap: wrap;
@@ -103,7 +106,7 @@
         }
     }
     .active-dir {
-        height: auto;
+        height: 100vh;//auto;
         overflow-y: scroll;
 
         .sub-dir > .name {
@@ -257,6 +260,13 @@
             opacity: 1;
             pointer-events: auto;
         }
+    }
+    .scroll-container {
+        display: block;
+        width: 350px;
+        height: 200px;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
     }
 }
 </style>

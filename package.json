@@ -1,6 +1,6 @@
 {
-    "name": "@moonvy/open-prompt-studio",
-    "version": "1.4.4",
+    "name": "prompt-library",
+    "version": "0.0.0",
     "license": "MIT",
     "type": "module",
     "scripts": {
@@ -25,7 +25,7 @@
         "csvtojson": "2.0.10",
         "sass": "1.59.2",
         "typescript": "4.9",
-        "vite": "4.3.1",
+        "vite": "^4.3.1",
         "vite-plugin-html": "3.2.0",
         "vite-plugin-progress": "^0.0.6"
     },

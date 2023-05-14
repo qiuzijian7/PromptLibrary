@@ -125,10 +125,10 @@
 .PromptEditor .PromptWork {
     padding: var(--padding-4) 0;
     --margin-left: 80px;
-    border-bottom: 1px solid #d7d7d7;
-    box-shadow: 0 1px 0 #ffffffeb;
+    //border-bottom: 1px solid #d7d7d7;
+    //box-shadow: 0 1px 0 #ffffffeb;
     display: flex;
-
+    //flex-direction: column;
     .PromptGroup {
         .PromptGroupTitle {
             margin-left: calc(10px + var(--margin-left));
