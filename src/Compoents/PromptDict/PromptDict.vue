@@ -61,7 +61,6 @@
             </div>
             <div  v-if="tagPrefabMap && activeCategory == '预设'">
                 <template v-for="(prefabIndexs,tag) in tagPrefabMap">
-                    <input type="checkbox" :id="tag" :value="tagMap[tag]" v-model="activeTags"> 
                     <label :for="tag">{{tagMap[tag]}}  </label>
                 </template>
             </div>
@@ -81,12 +80,13 @@
                 </div>
             </details>
         </div>
-        <div class="active-dir" v-if="activeTags  && activeCategory == '预设'">
+       
+        <div class="active-dir" v-if="activeTags && activeCategory == '预设'">
             <div class="list">
-                <div class="item" v-for="prefabIndex in activeTags">
-                    <PromptImage :item="prefabMap[prefabIndex]" @click="doApplyWord(prefabMap[prefabIndex])"/>
+                <div v-for="(prefabIndex,Index) in activeTags">
+                    <PromptImage :item="prefabMap[Index]" @click="doApplyPrefab(prefabMap[Index])"/> 
                 </div>
-            </div>`
+            </div>
       
         </div>
     
@@ -326,6 +326,7 @@
 <script>
 import { getDictData ,getPrefabData} from "./getDictData"
 import vPromptItem from "../../Compoents/PromptEditor/Components/PromptItem/PromptItem.vue"
+import vPromptImage from "../../Compoents/PromptEditor/Components/PromptImage/PromptImage.vue"
 import { useDatabaseServer } from "../PromptEditor/Lib/DatabaseServer/DatabaseServer"
 import { useStorage } from "@vueuse/core"
 import { debounce } from "lodash"
@@ -446,6 +447,18 @@ export default {
                 vueIns.doExportPrompt()
             }
         },
+        async doApplyPrefab(item) {
+            let activeInputEl = document.body.querySelector(".PromptWork.active")
+            if (!activeInputEl) activeInputEl = document.body.querySelector(".PromptWork")
+            if (activeInputEl) {
+                for (const element of item.words) {
+                    let insertText = element.data.word.rawText ?? element.data.word.text
+                    let vueIns = activeInputEl.__vue__
+                    await vueIns.promptWork.reflowPrompts(insertText)
+                    vueIns.doExportPrompt()
+                }
+            }
+        },
 
         doChangeActiveDir(dir) {
             this.activeDir = dir
@@ -465,7 +478,10 @@ export default {
             this.isHoverButton = v
         }, 400),
     },
-    components: { PromptItem: vPromptItem },
+    components: { 
+        PromptItem: vPromptItem ,
+        PromptImage: vPromptImage 
+        },
 
     computed: {
         activeSubDirs() {

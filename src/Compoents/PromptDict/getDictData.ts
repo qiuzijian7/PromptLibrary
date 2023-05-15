@@ -140,12 +140,11 @@ export async function getPrefabData(onlyMyNotion?: boolean): Promise<IDictDir[]>
     let tagMap = Object.keys(dirMap)
     let dictDirs = Object.values(dirMap)
 
-    dictDirs.forEach((dir: any) => {
-        dir.forEach((eachPrompt:any) => {
-            prefabMap[eachPrompt].words = lists(prefabMap[eachPrompt].words)
-        });
+    prefabMap.forEach((eachPrompt:any) => {
+        eachPrompt.words = lists(eachPrompt.words)
+    });
         
-    })
+    
 
     function lists(words: any[]) {
         return words.map((word) => {
