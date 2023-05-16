@@ -10,6 +10,13 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:12833/apps/ops/",
             "webRoot": "${workspaceFolder}"
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Single File",
+            "program": "${workspaceFolder}/data/build.js",
+            "console": "integratedTerminal"
+          }
     ]
 }
