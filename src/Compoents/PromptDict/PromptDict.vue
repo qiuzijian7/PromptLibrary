@@ -60,7 +60,8 @@
                 </template>
             </div>
             <div  v-if="tagPrefabMap && activeCategory == '预设'">
-                <template v-for="(prefabIndexs,tag) in tagPrefabMap">
+                <template   v-for="(prefabIndexs,tag) in tagPrefabMap">
+                    <input type="checkbox" :id="tag" :value="tagMap[tag]" v-model="activeTags"> 
                     <label :for="tag">{{tagMap[tag]}}  </label>
                 </template>
             </div>

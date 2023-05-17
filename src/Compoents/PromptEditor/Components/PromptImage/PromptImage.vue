@@ -6,7 +6,7 @@
         @mousedown="onMousedown"
     >
         <div  class="image-container" >
-            <img class="image-container img" :src="item.image" alt="none"/>
+            <img class="image-container img" v-lazy="item.image" alt="none"/>
             
         </div>
     </div>

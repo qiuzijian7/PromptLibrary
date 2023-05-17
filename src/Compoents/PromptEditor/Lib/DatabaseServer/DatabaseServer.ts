@@ -14,6 +14,7 @@ export interface IPromptDefineItem {
     prompt?:string
     author?:string
     platform?:string
+    property?:string
     
 }
 

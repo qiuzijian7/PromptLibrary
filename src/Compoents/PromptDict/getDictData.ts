@@ -89,6 +89,7 @@ export async function getPrefabData(onlyMyNotion?: boolean): Promise<IDictDir[]>
     for (let key in define) {
         let item = define[key]
         let prompts = item?.prompt?.split(/[,.]/);
+        let cmds = item?.property?.split('--');
         let tags = item?.tags?.split(",");
         let newPrefab = 
         {
@@ -98,7 +99,8 @@ export async function getPrefabData(onlyMyNotion?: boolean): Promise<IDictDir[]>
             tags: tags,
             platform: item.platform,
             words:[],
-            author:item.author
+            author:item.author,
+            property:item.property
         }
         prefabMap.push(newPrefab)
         let prefabeIndex = prefabMap.length-1
@@ -107,6 +109,21 @@ export async function getPrefabData(onlyMyNotion?: boolean): Promise<IDictDir[]>
             newPrefab.words.push(
                 {
                     text: prompts[key],
+                    langText: "",
+                    subType: "",
+                    desc: "",
+                }
+            );
+        }
+        for(let key in cmds)
+        {
+            if(cmds[key] == '')
+            {
+                continue;
+            }
+            newPrefab.words.push(
+                {
+                    text: "--"+cmds[key],
                     langText: "",
                     subType: "",
                     desc: "",
