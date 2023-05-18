@@ -20,8 +20,8 @@ export function bootVue(setVueHandler?: (VueConstructor: typeof Vue) => any) {
     Vue.use(FloatingVue)
     Vue.use(VueLazyload, {
         preLoad: 1,
-        error: new URL('./web/public/404.jpg',import.meta.url),
-        loading:new URL('./web/public/loading-spin.svg',import.meta.url), 
+        error: new URL('/404.jpg',import.meta.url).href,
+        loading:new URL('/loading.svg',import.meta.url).href, 
         attempt: 2,
       })
     // --------––––––––––––––––––––––––––––––

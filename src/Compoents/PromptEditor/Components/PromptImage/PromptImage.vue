@@ -6,8 +6,7 @@
         @mousedown="onMousedown"
     >
         <div  class="image-container" >
-            <img class="image-container img" v-lazy="item.image" alt="none"/>
-            
+            <img class="image-container img" v-lazy="item.image" alt="none"/>         
         </div>
     </div>
 </template>
@@ -40,6 +39,12 @@ export default Vue.extend({
     props: {
         item: { type: Object as PropType<PromptImage>, required: true },
         list: { type: Object as PropType<PromptList> },
+        
+    },
+    data(){
+        return{
+            testimg:  new URL("/404.jpg", import.meta.url).href
+        }
     },
     watch: {
         item: {
