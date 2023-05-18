@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="85px" height="85px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-<circle cx="75" cy="50" fill="#ffd7c0" r="3">
+<circle height="50" width="50" cx="75" cy="50" fill="#ffd7c0" r="3">
   <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.9166666666666666s"></animate>
   <animate attributeName="fill" values="#ffd7c0;#ffd7c0;#ff1574;#ffd7c0;#ffd7c0" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.9166666666666666s"></animate>
 </circle><circle cx="71.65063509461098" cy="62.5" fill="#ffd7c0" r="3.53303">

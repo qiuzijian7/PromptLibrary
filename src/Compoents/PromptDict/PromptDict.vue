@@ -84,9 +84,10 @@
        
         <div class="active-dir" v-if="activeTags && activeCategory == '预设'">
             <div class="list">
-                <div v-for="(prefabIndex,Index) in activeTags">
-                    <PromptImage :item="prefabMap[Index]" @click="doApplyPrefab(prefabMap[Index])"/> 
-                </div>
+                
+                <div v-for="(prefabItem,Index) in getImages">
+                    <PromptImage :item="prefabItem" @click="doApplyPrefab(prefabItem)"/> 
+                </div>  
             </div>
       
         </div>
@@ -499,6 +500,28 @@ export default {
                 }
                 return displayPrefabs
             }
+        },
+        getImages()
+        {
+            let prefabTagName;
+            let items = new Set();
+            let tagIndex = 0;
+
+            for(let tagName of this.activeTags)
+            {
+                tagIndex = this.tagMap.indexOf(tagName);
+                if(tagIndex != -1)
+                {
+                   let prefabIndexs = this.tagPrefabMap[tagIndex];
+                    for(let prefabIndex of prefabIndexs)
+                    {
+                        items.add(this.prefabMap[prefabIndex]);
+                    }
+                }
+            
+            }
+            
+            return Array.from(items);
         },
 
         notioConfigActive() {
