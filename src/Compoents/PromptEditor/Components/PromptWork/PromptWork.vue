@@ -9,7 +9,7 @@
                 class="input"
                 v-model="inputText"
                 placeholder="输入提示词"
-                rows="8"
+                rows="12"
                 @paste="onUserInputDebounce"
                 @input="onUserInputDebounce"
                 @keydown.enter="onUserInputDebounce"
@@ -17,10 +17,10 @@
                 spellcheck="false"
             >
             </textarea>
-            <div class="output">
+             <!-- <div class="output">
                 <div class="pl" v-if="outputText == inputText">输出与输入相同</div>
                 <template v-else> {{ outputText }}</template>
-            </div>
+            </div>  -->
             <div class="options">
                 <!--                <button @click="doExportPrompt">{{ "导出" }}</button>-->
                 <!--                <button @click="doImportByInput">{{ "导入" }}</button>-->
@@ -32,15 +32,15 @@
                     <div class="button-group">
                         <button @click="doDisableAll()" v-tooltip="'全部禁用'" class="icon">
                             <Icon icon="radix-icons:shadow-none" />
-                        </button>
-                        <button
+                        </button> 
+                         <!-- <button
                             @click="doSwitchIO()"
                             v-tooltip="'用输出替换输入'"
                             class="icon"
                             :class="{ disabled: outputText == inputText }"
                         >
                             <Icon icon="radix-icons:arrow-up" />
-                        </button>
+                        </button>  -->
                         <button
                             @click="doClear()"
                             v-tooltip="'清空输入'"
@@ -51,23 +51,24 @@
                         </button>
                     </div>
                     <div class="button-group">
+                        <select v-model="inputParser" class="parser-select" v-tooltip="`提示词语法类型`">
+                        <option value="midjourney">Midjourney</option>
+                        <option value="stable-diffusion-webui">stable-diffusion-webui</option>
+                        </select>
+                        <button @click="doDeleteWorkspace()" v-tooltip="`删除工作区`" class="icon">
+                            <Icon icon="radix-icons:trash" />
+                        </button>
+                    </div>
+                    <!-- <div class="button-group">
                         <button @click="toPng" v-tooltip="`导出 PNG 图片`">
                             <Icon icon="fluent:image-16-regular" />
                         </button>
                         <button @click="toPng({ scale: 2 })" v-tooltip="`导出 PNG 图片（2X）`">
                             <Icon icon="fluent:hd-24-regular" />
                         </button>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="line more-options">
-                    <select v-model="inputParser" class="parser-select" v-tooltip="`提示词语法类型`">
-                        <option value="midjourney">Midjourney</option>
-                        <option value="stable-diffusion-webui">stable-diffusion-webui</option>
-                    </select>
-                    <button @click="doDeleteWorkspace()" v-tooltip="`删除工作区`" class="icon">
-                        <Icon icon="radix-icons:trash" />
-                    </button>
-                </div>
+
             </div>
         </div>
         <div class="main" ref="main">
@@ -124,12 +125,13 @@
 <style lang="scss">
 .PromptEditor .PromptWork {
     padding: var(--padding-4) 0;
-    --margin-left: 80px;
+    --margin-left: 50px;
     //border-bottom: 1px solid #d7d7d7;
     //box-shadow: 0 1px 0 #ffffffeb;
     display: flex;
-    //flex-direction: column;
+    flex-direction: column;
     .PromptGroup {
+        margin-top: 30px;
         .PromptGroupTitle {
             margin-left: calc(10px + var(--margin-left));
             font-size: var(--font-size-05);
@@ -258,8 +260,8 @@
         display: flex;
         flex-direction: column;
         flex: none;
-        width: 320px;
-        margin-left: 20px;
+        width:85%;
+        margin-left: 50px;
 
         > * {
             transition: all 0.2s ease;
@@ -503,6 +505,7 @@ export default Vue.extend({
             // console.log("onItemClick", item)
             item.data.disabled = !item.data.disabled
             this.doExportPrompt()
+            this.doSwitchIO()
         },
         // 提示词条目内容更新
         async onItemUpdate(item: PromptItem) {

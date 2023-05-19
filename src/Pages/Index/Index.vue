@@ -178,11 +178,11 @@
         flex-direction: row;
         .LeftWorkSpace
         {
-            width: 65%;
+            width: 50%;
         }
         .RightWorkSpace
         {
-            width: 35%;
+            width: 50%;
         }
     }
     
