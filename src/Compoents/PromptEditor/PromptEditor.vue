@@ -3,20 +3,18 @@
         <div class="workspace">
             <Tabs ref='tab' :value="promptEditor.works[0].id" v-on:addWorkEvent="doAddWorkspace">
                 <TabPane
-                    v-for="work in promptEditor.works" 
-                    :label="work.data.name" 
-                    :name="work.id"
+                    v-for="pane in tabPanes" 
+                    :label="pane.label" 
+                    :name="pane.name"
                     >
-                        <PromptWork
-                            :prompt-work="work"
-                            :key="work.id"
+                        <template v-if="pane.raw != null">
+                            <PromptWork
+                            :prompt-work="pane.raw"
+                            :key="pane.raw.id"
                             @delete="doDeletePromptWork"
-                        />
-                </TabPane>
-                <TabPane
-                    label="[+]" 
-                    name="addwork"
-                >
+                        /> 
+                        </template>
+                        
                 </TabPane>
             </Tabs>
              
@@ -145,11 +143,13 @@ export default {
         },
         tabPanes() {
             return this.promptEditor.works.map(work => ({
-            label: work.data.name,
-            name: work.id
+                label: work.data.name,
+                name: work.id,
+                raw: work
             })).concat({
-            label: '[+]',
-            name: 'addwork'
+                label: '[+]',
+                name: 'addwork',
+                raw: null
             });
         }
 
