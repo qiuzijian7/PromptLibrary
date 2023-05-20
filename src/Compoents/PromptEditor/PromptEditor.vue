@@ -1,13 +1,34 @@
 <template>
     <div class="PromptEditor">
         <div class="workspace">
+            <Tabs ref='tab' :value="promptEditor.works[0].id" v-on:addWorkEvent="doAddWorkspace">
+                <TabPane
+                    v-for="work in promptEditor.works" 
+                    :label="work.data.name" 
+                    :name="work.id"
+                    >
+                        <PromptWork
+                            :prompt-work="work"
+                            :key="work.id"
+                            @delete="doDeletePromptWork"
+                        />
+                </TabPane>
+                <TabPane
+                    label="[+]" 
+                    name="addwork"
+                >
+                </TabPane>
+            </Tabs>
+             
+        </div>
+        <!-- <div class="workspace">
             <PromptWork
                 v-for="work in promptEditor.works"
                 :prompt-work="work"
                 :key="work.id"
                 @delete="doDeletePromptWork"
             />
-        </div>
+        </div> -->
 
     </div>
 </template>
@@ -58,6 +79,8 @@
 <script>
 import { LOCAL_TRANSLATE_SERVER, PromptEditorClass } from "./PromptEditorClass"
 import PromptWork from "./Components/PromptWork/PromptWork.vue"
+import TabPane from "./Components/WorkTab/WorkPane.vue"
+import Tabs from "./Components/WorkTab/WorkTab.vue"
 import { dndInit } from "./Lib/DnD"
 import { useClipboard } from "@vueuse/core"
 let { copy } = useClipboard({ legacy: true })
@@ -72,7 +95,11 @@ export default {
             adDelay: false,
         }
     },
-    components: { PromptWork },
+    components: { 
+        PromptWork,
+        TabPane,
+        Tabs
+         },
     provide() {
         setTimeout(() => (this.adDelay = true), 500)
         return { PromptEditor: this }
@@ -82,17 +109,19 @@ export default {
             immediate: true,
             handler(val) {
                 globalThis.__OPS_SERVER = val
-            },
+            }
         },
     },
     methods: {
         doAddWorkspace() {
             this.promptEditor.addWorkspace()
-            setTimeout(() => {
-                this.$refs["operate-tool"].scrollIntoView({
-                    behavior: "smooth",
-                })
-            }, 100)
+            const length = this.promptEditor.works.length;
+            this.$refs["tab"].activeKey = this.promptEditor.works[length-1].id
+            // setTimeout(() => {
+            //     this.$refs["operate-tool"].scrollIntoView({
+            //         behavior: "smooth",
+            //     })
+            // }, 100)
         },
         doCopyWorkspaceUrl() {
             let prompts = this.promptEditor.works.map((w) => w.exportPrompts())
@@ -102,7 +131,10 @@ export default {
         },
 
         doDeletePromptWork(promptWork) {
+            let index = this.promptEditor.works.indexOf(promptWork)
             this.promptEditor.removeWorkspace(promptWork)
+            index = index-1 <= 0 ? 0:index-1
+            this.$refs["tab"].activeKey = this.promptEditor.works[index].id
         },
     },
     computed: {
@@ -111,6 +143,19 @@ export default {
                 return true
             }
         },
+        tabPanes() {
+            return this.promptEditor.works.map(work => ({
+            label: work.data.name,
+            name: work.id
+            })).concat({
+            label: '[+]',
+            name: 'addwork'
+            });
+        }
+
     },
+    mounted(){
+        
+    }
 }
 </script>

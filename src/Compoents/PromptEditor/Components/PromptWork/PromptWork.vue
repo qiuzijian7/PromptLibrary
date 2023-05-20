@@ -3,7 +3,7 @@
     <div class="PromptWork" :class="{ isPNGExporting }" @click="onWorkClick">
         <div class="AddArea Area">
             <div class="WorkInfoArea Area">
-                <div class="WorkName"><input type="text" v-model="promptWork.data.name" /></div>
+                <div class="WorkName">名称：<input type="text" v-model="promptWork.data.name" /></div>
             </div>
             <textarea
                 class="input"
@@ -362,6 +362,7 @@
             display: flex;
             input {
                 border: none;
+                margin-top: -2px;
                 background: transparent;
                 font-size: var(--font-size-1);
                 padding: var(--padding-1) var(--padding-2);
@@ -369,7 +370,7 @@
                 border-radius: 3px;
                 color: #5f5c5c;
                 font-weight: 600;
-                width: calc(100% + -6px);
+                width: calc(50% + -6px);
                 flex: none;
                 &:focus-visible {
                     outline: none;
