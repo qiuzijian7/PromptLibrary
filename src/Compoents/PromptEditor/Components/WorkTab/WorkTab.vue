@@ -164,7 +164,9 @@ export default {
     getCurrentScrollOffset() {
       const { navStyle } = this
       const reg = /translateX\(-(\d+(\.\d+)*)px\)/
-      return navStyle.transform ? Number(navStyle.transform.match(reg)[1]) : 0
+      const matches = navStyle.transform?.match(reg) 
+      const num = matches?.length >=1 ? Number(navStyle.transform.match(reg)[1]):0
+      return num
     },
     setOffset(value) {
       this.navStyle.transform = `translateX(-${value}px)`
@@ -192,6 +194,7 @@ export default {
       }
       this.navStyle.transform = `translateX(-${newOffset}px)`
     }
+   
   },
   watch: {
     value(val) {

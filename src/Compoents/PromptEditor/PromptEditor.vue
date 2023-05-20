@@ -115,6 +115,12 @@ export default {
             this.promptEditor.addWorkspace()
             const length = this.promptEditor.works.length;
             this.$refs["tab"].activeKey = this.promptEditor.works[length-1].id
+            this.$refs["tab"].handleResize()
+            this.$refs["tab"].updataBar()
+            this.$nextTick(() => {
+                 this.$refs["tab"].scrollNext()
+             })
+           
             // setTimeout(() => {
             //     this.$refs["operate-tool"].scrollIntoView({
             //         behavior: "smooth",
@@ -133,6 +139,8 @@ export default {
             this.promptEditor.removeWorkspace(promptWork)
             index = index-1 <= 0 ? 0:index-1
             this.$refs["tab"].activeKey = this.promptEditor.works[index].id
+            this.$refs["tab"].handleResize()
+            
         },
     },
     computed: {
